@@ -1,1 +1,10 @@
 write your observations:
+I often log in and switch between multiple GitHub accounts using gh auth login and gh auth switch.
+I regularly create new branches with git checkout -b to work on features separately.
+I use git add and git commit repeatedly to save my changes locally.
+I set up my Git identity using git config --global user.name and git config --global user.email to keep commits traceable.
+I initialize new local repositories with git init whenever starting a project from scratch.
+I clone existing GitHub repositories using gh repo clone to work on remote projects locally.
+I link local repositories to remote ones with git remote add origin to push changes.
+I regularly fetch updates from the main branch using git fetch and merge or rebase to stay up to date.
+I frequently check my current Git status using gh auth status or git status to confirm my workflow.

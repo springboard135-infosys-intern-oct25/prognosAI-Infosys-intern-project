@@ -16,7 +16,7 @@ warnings.filterwarnings('ignore')
 
 # 2. DATA LOADING - MULTIPLE DATASETS
 # ----------------------------------------------------------------------------
-def load_multiple_cmapss_datasets(data_dir="C:/Users/win10/Desktop/Project_Oct25/prognosAI-Infosys-intern-project/data/raw",
+def load_multiple_cmapss_datasets(data_dir="D:/ProgonsAI/data",
                                   fd_list=[1, 2, 3, 4]):
     """
     Load multiple CMAPSS datasets (FD001-FD004) and merge them.
@@ -592,6 +592,8 @@ def validate_feature_quality(df, verbose=True):
     validation_report = {
         'total_rows': len(df),
         'total_columns': len(df.columns),
+
+        
         'missing_values': df.isnull().sum().sum(),
         'duplicate_rows': df.duplicated().sum(),
         'numeric_columns': len(df.select_dtypes(include=[np.number]).columns),
@@ -670,7 +672,8 @@ def save_preprocessing_artifacts(scaler, output_dir=".", verbose=True):
 # 16. MAIN COMPLETE PREPROCESSING PIPELINE
 # ============================================================================
 def preprocess_cmapss_complete(
-    data_dir="C:/Users/win10/Desktop/Project_Oct25/prognosAI-Infosys-intern-project/data/raw",
+  data_dir = "D:/ProgonsAI/data",
+
     fd_list=[1, 2, 3, 4],
     output_path="cmapss_preprocessed_complete.csv",
     output_dir=".",
@@ -857,12 +860,14 @@ def preprocess_cmapss_complete(
 
 # 17. USAGE EXAMPLE
 # ============================================================================
+# 17. USAGE EXAMPLE
+# ============================================================================
 if __name__ == "__main__":
-    # Configure paths
-    DATA_DIR = "C:/Users/win10/Desktop/Project_Oct25/prognosAI-Infosys-intern-project/data/raw"
-    OUTPUT_PATH = "C:/Users/win10/Desktop/Project_Oct25/prognosAI-Infosys-intern-project/data/processed/cmapss_preprocessed.csv"
-    OUTPUT_DIR = "."
-    
+    # Define your paths
+    DATA_DIR = r"D:\ProgonsAI\data"   # ✅ folder containing train_FD001.txt etc.
+    OUTPUT_DIR = r"D:\ProgonsAI\milestone_2\week_3\Day_10"  # ✅ where results will be saved
+    OUTPUT_PATH = fr"{OUTPUT_DIR}\cmapss_preprocessed_complete.csv"
+
     # Run complete preprocessing pipeline
     df_processed, scaler, summary = preprocess_cmapss_complete(
         data_dir=DATA_DIR,
@@ -878,38 +883,38 @@ if __name__ == "__main__":
         scaling_method='standard',
         verbose=True
     )
-    
+
     # Display results
-    print("\n" + "-"*80)
+    print("\n" + "-" * 80)
     print("PREPROCESSED DATA SAMPLE (First 10 Rows)")
-    print("-"*80)
+    print("-" * 80)
     print(df_processed.head(10))
-    
-    print("\n" + "-"*80)
+
+    print("\n" + "-" * 80)
     print("FINAL FEATURE COLUMNS")
-    print("-"*80)
+    print("-" * 80)
     print(f"Total: {len(df_processed.columns)} columns")
     print(f"\nColumn breakdown:")
     print(f"  - Identifiers: engine_id, cycle")
     print(f"  - Operational settings: 3 (op_setting_1, op_setting_2, op_setting_3)")
     print(f"  - Raw sensors: {len([c for c in df_processed.columns if c.startswith('sensor_') and 'roll' not in c])}")
     print(f"  - Rolling features: {len([c for c in df_processed.columns if 'roll' in c])}")
-    
-    print("\n" + "-"*80)
+
+    print("\n" + "-" * 80)
     print("VERIFY dataset_id REMOVAL")
-    print("-"*80)
+    print("-" * 80)
     if 'dataset_id' in df_processed.columns:
         print("❌ WARNING: 'dataset_id' column still present!")
     else:
         print("✓ CONFIRMED: 'dataset_id' column successfully removed")
-    
-    print("\n" + "-"*80)
+
+    print("\n" + "-" * 80)
     print("SCALING VERIFICATION (Sample Features)")
-    print("-"*80)
+    print("-" * 80)
     sensor_sample = [c for c in df_processed.columns if c.startswith('sensor_') and 'roll' not in c][:3]
     print(df_processed[sensor_sample].describe().transpose()[['mean', 'std', 'min', 'max']])
-    
-    print("\n" + "-"*80)
+
+    print("\n" + "-" * 80)
     print("FINAL DATAFRAME INFO")
-    print("-"*80)
+    print("-" * 80)
     print(df_processed.info())

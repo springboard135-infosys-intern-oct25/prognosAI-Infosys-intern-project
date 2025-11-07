@@ -1,1 +1,3 @@
 write your observations:
+
+1. Merge command will pull all the changes that happend to the main to my branch.
